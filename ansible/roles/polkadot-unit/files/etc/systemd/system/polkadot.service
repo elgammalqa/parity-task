@@ -1,0 +1,12 @@
+[Unit]
+Description=Polkadot unit
+Requires=docker.service
+After=docker.service
+
+[Service]
+Restart=always
+ExecStart=/usr/bin/docker run --rm --name little_polka -d chevdor/polkadot:latest polkadot --name "Little_Polkadot_automator_test"
+ExecStop=/usr/bin/docker stop little_polka
+
+[Install]
+WantedBy=local.target

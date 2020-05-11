@@ -1,0 +1,28 @@
+# updated at 2017-09-17T18:39:08Z
+
+[Unit]
+Description=Exporter for machine metrics http://prometheus.io/
+Documentation=https://github.com/prometheus/node_exporter
+After=systemd-networkd.service
+Requires=systemd-networkd.service
+
+[Service]
+# Resource limits
+CPUShares=512
+MemoryLimit=1G
+Restart=always
+RestartSec=10
+KillMode=mixed
+Environment=NODE_EXPORTER_URL=https://github.com/prometheus/node_exporter/releases/download/v
+Environment=NODE_EXPORTER_VERSION=0.14.0
+ExecStartPre=/bin/sh -c "mkdir -p /opt/bin"
+ExecStartPre=/bin/sh -c "wget -N -P /tmp ${NODE_EXPORTER_URL}${NODE_EXPORTER_VERSION}/node_exporter-${NODE_EXPORTER_VERSION}.linux-amd64.tar.gz"
+ExecStartPre=/bin/sh -c "tar --strip-components 1 \
+    -xf /tmp/node_exporter-${NODE_EXPORTER_VERSION}.linux-amd64.tar.gz \
+    -C /opt/bin node_exporter-${NODE_EXPORTER_VERSION}.linux-amd64/node_exporter"
+ExecStartPre=/bin/sh -c "chmod +x /opt/bin/node_exporter"
+ExecStart=/opt/bin/node_exporter
+ExecStartPost=/bin/sh -c "rm /tmp/node_exporter-${NODE_EXPORTER_VERSION}.linux-amd64.tar.gz"
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,6 @@
+---
+- name: "polkadot install and build"
+  shell: "git clone https://github.com/paritytech/polkadot && \
+          cd polkadot && \
+          ./scripts/init.sh && \
+          cargo build --release"

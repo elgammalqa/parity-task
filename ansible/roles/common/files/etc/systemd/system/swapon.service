@@ -1,0 +1,14 @@
+[Unit]
+Description=Turn on swap
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStartPre=/bin/sh -c "fallocate -l 2048m /mnt/2GiB.swap"
+ExecStartPre=/bin/sh -c "chmod 600 /mnt/2GiB.swap"
+ExecStartPre=/bin/sh -c "mkswap /mnt/2GiB.swap"
+ExecStart=/bin/sh -c "swapon /mnt/2GiB.swap"
+ExecStop=/bin/sh -c "swapoff /mnt/2GiB.swap"
+
+[Install]
+WantedBy=multi-user.target

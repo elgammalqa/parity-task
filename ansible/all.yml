@@ -1,0 +1,18 @@
+---
+- hosts: all
+  become: true
+
+  vars:
+    - ansible_python_interpreter: "/usr/bin/python3"
+
+    - polkadot_node_name: "litte_polka_test"
+    - polkadot_node_count: 4
+
+  roles:
+    - {role: common, tags: common}
+    - {role: docker, tags: docker}
+    - {role: node-exporter, tags: node-exporter}
+    - {role: polkadot-ansible, tags: polkadot-ansible}
+  # - {role: polkadot-unit, tags: polkadot-unit}
+  # - {role: rust, tags: rust}
+  # - {role: polkadot, tags: polkadot}

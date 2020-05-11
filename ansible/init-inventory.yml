@@ -1,0 +1,15 @@
+---
+- hosts: localhost
+  become: false
+
+  vars:
+    project:  "{{ lookup('env','PROJECT') }}"
+
+  tasks:
+    - name: "Create invetory file"
+      template:
+        src: "/polkadot/ansible/templates/{{ item }}.j2"
+        dest: "/polkadot/ansible/{{ item }}"
+        force: false
+      with_items:
+        - inventory.gcp.yml
